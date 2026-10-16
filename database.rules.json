@@ -46,6 +46,11 @@
             ".write": "auth != null && auth.uid === $dev && root.child('families/' + $fid + '/devices/' + $dev).exists()"
           }
         },
+        "labels": {
+          "$dev": {
+            ".write": "auth != null && auth.uid === $dev && root.child('families/' + $fid + '/devices/' + $dev).exists()"
+          }
+        },
         "alerts": {
           "$dev": {
             ".write": "auth != null && auth.uid === $dev && root.child('families/' + $fid + '/devices/' + $dev).exists()"

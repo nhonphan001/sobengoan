@@ -78,6 +78,7 @@ test("máy đã duyệt ghi trạng thái, giờ dùng, xin thêm giờ của ch
   const db = tablet();
   await assertSucceeds(set(ref(db, p("deviceState/tablet")), { lastSeen: 1 }));
   await assertSucceeds(set(ref(db, p("usage/tablet/2026-10-16")), { "com,google,android,youtube": 12 }));
+  await assertSucceeds(set(ref(db, p("labels/tablet/com,google,android,youtube")), "YouTube"));
   await assertSucceeds(set(ref(db, p("alerts/tablet/a1")), { type: "BLOCKED_APP", at: 1 }));
   await assertSucceeds(set(ref(db, p("requests/tablet/r1")), { type: "extension", status: "pending", at: 1 }));
   await assertFails(set(ref(db, p("requests/tablet/r1")), { type: "extension", status: "approved", at: 1 }));

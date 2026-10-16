@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sổ Bé Ngoan</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+
+<div id="loading" class="loading">Đang tải…</div>
+
+<!-- ===== Đăng nhập / đăng ký ===== -->
+<div id="authScreen" class="auth-wrap" hidden>
+  <div class="card auth-card">
+    <h1>Sổ Bé Ngoan</h1>
+    <p class="sub">Dành cho ba mẹ</p>
+    <div class="seg">
+      <button type="button" class="seg-btn active" data-act="idType" data-type="phone">Số điện thoại</button>
+      <button type="button" class="seg-btn" data-act="idType" data-type="email">Email</button>
+    </div>
+    <form id="authForm">
+      <input id="authId" class="input" type="tel" autocomplete="username" placeholder="Số điện thoại (vd: 0912345678)" required>
+      <input id="authPassword" class="input" type="password" autocomplete="current-password" placeholder="Mật khẩu (ít nhất 6 ký tự)" required minlength="6">
+      <div id="authError" class="err" hidden></div>
+      <button id="authSubmit" class="btn primary wide" type="submit">Đăng nhập</button>
+    </form>
+    <p class="auth-switch">
+      <span id="authSwitchText">Chưa có tài khoản?</span>
+      <a href="#" data-act="toggleAuthMode" id="authSwitchLink">Đăng ký</a>
+    </p>
+  </div>
+</div>
+
+<!-- ===== Dashboard ===== -->
+<div id="app" class="wrap" hidden>
+  <header class="top">
+    <div>
+      <h1>Sổ Bé Ngoan</h1>
+      <div class="sub">Theo dõi và đồng hành cùng các con khi dùng máy</div>
+    </div>
+    <div class="code-box">
+      <div class="muted">Mã gia đình (bé nhập vào app)</div>
+      <div id="familyCode" class="code"></div>
+      <button class="link-btn" data-act="logout">Đăng xuất</button>
+    </div>
+  </header>
+
+  <div id="errBox" class="err" hidden></div>
+  <div id="pairingList"></div>
+  <div id="requestList"></div>
+
+  <nav id="kidTabs" class="kids"></nav>
+
+  <div id="emptyFamily" class="card" hidden>
+    <div class="card-title">👋 Chưa có bé nào</div>
+    <p>Cài app <b>Sổ Bé Ngoan</b> trên máy của bé, nhập <b>Mã gia đình</b> ở góc trên và tên bé. Yêu cầu ghép nối sẽ hiện ở đây để ba mẹ bấm Duyệt.</p>
+  </div>
+
+  <section id="childView" hidden>
+    <div id="deviceTabs" class="device-tabs"></div>
+
+    <div id="deviceView" hidden>
+      <div class="card" id="deviceHeader"></div>
+
+      <div class="grid two">
+        <div class="card">
+          <div class="card-title">⏱ Thời gian dùng hôm nay</div>
+          <div id="usageSummary"></div>
+          <div class="muted" style="margin-top:12px">Thưởng thêm thời gian hôm nay</div>
+          <div class="row">
+            <button class="btn" data-act="bonus" data-min="10">+10 phút</button>
+            <button class="btn" data-act="bonus" data-min="15">+15 phút</button>
+            <button class="btn" data-act="bonus" data-min="30">+30 phút</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🟢 Đang dùng</div>
+          <div id="currentApp"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📱 Ứng dụng đã dùng hôm nay</div>
+        <div id="appUsage"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔒 Giới hạn của máy này</div>
+        <div class="muted">Tổng thời gian dùng máy mỗi ngày</div>
+        <form id="dailyLimitForm" class="row">
+          <input id="dailyLimitInput" class="input small" type="number" min="0" max="1440" step="5" required>
+          <span class="muted">phút</span>
+          <button class="btn primary">Lưu</button>
+        </form>
+        <div class="muted" style="margin-top:16px">Chặn ứng dụng (bấm để chặn / bỏ chặn)</div>
+        <div id="blockedChips" class="chips"></div>
+        <form id="customBlockForm" class="row">
+          <input id="customPkgInput" class="input" placeholder="Tên gói khác, vd: com.example.app" required>
+          <button class="btn">Chặn</button>
+        </form>
+        <div class="muted" style="margin-top:16px">Giới hạn riêng từng ứng dụng (phút/ngày, để trống = không giới hạn riêng)</div>
+        <div id="appLimits"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📸 Chụp màn hình</div>
+        <button class="btn" id="screenshotBtn" data-act="requestScreenshot">Chụp màn hình ngay</button>
+        <div id="screenshotView"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📍 Vị trí gần nhất</div>
+        <label class="switch-row"><input type="checkbox" id="locationToggle"> Bật định vị (cập nhật tối đa 5 phút/lần)</label>
+        <div id="locationView"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⚠️ Cảnh báo gần đây</div>
+        <div id="alertsView"></div>
+      </div>
+    </div>
+
+    <h2 id="sharedTitle" class="section-title"></h2>
+
+    <div class="grid two">
+      <div class="card">
+        <div class="card-title">⭐ Điểm thưởng</div>
+        <div id="pointsView" class="big"></div>
+        <div class="row">
+          <button class="btn" data-act="points" data-n="10">+10</button>
+          <button class="btn" data-act="points" data-n="20">+20</button>
+          <button class="btn" data-act="points" data-n="50">+50</button>
+          <button class="btn" data-act="points" data-n="-10">−10</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">👦 Hồ sơ</div>
+        <div id="childProfile"></div>
+        <div class="row">
+          <button class="btn" data-act="renameChild">Đổi tên</button>
+          <button class="btn danger" data-act="deleteChild">Xoá bé</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📅 Thời khoá biểu &amp; sinh hoạt</div>
+      <form id="scheduleForm" class="row">
+        <select id="scheduleDay" class="input small">
+          <option value="daily">Hằng ngày</option>
+          <option value="T2">Thứ 2</option><option value="T3">Thứ 3</option><option value="T4">Thứ 4</option>
+          <option value="T5">Thứ 5</option><option value="T6">Thứ 6</option><option value="T7">Thứ 7</option>
+          <option value="CN">Chủ nhật</option>
+        </select>
+        <input id="scheduleTime" class="input small" type="time" value="18:00" required>
+        <input id="scheduleTitle" class="input" placeholder="Hoạt động, vd: Học bài" maxlength="60" required>
+        <button class="btn primary">Thêm</button>
+      </form>
+      <div id="scheduleDays" class="chips"></div>
+      <div id="scheduleList"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💬 Nhắn tin</div>
+      <div id="chatList" class="chat"></div>
+      <form id="chatForm" class="row">
+        <input id="chatInput" class="input" maxlength="500" placeholder="Nhắn điều gì đó tích cực…" required>
+        <button class="btn primary">Gửi</button>
+      </form>
+    </div>
+  </section>
+</div>
+
+<dialog id="approveDialog"><div id="approveBody"></div></dialog>
+<dialog id="lightbox" data-act="closeLightbox"><img id="lightboxImg" alt="Ảnh chụp màn hình"></dialog>
+
+</body>
+</html>
