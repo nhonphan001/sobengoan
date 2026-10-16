@@ -1,0 +1,94 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "families": {
+      "$fid": {
+        ".read": "auth != null && root.child('families/' + $fid + '/owner').val() === auth.uid",
+        ".write": "auth != null && root.child('families/' + $fid + '/owner').val() === auth.uid || (auth != null && !data.exists() && newData.child('owner').val() === auth.uid)",
+        "owner": {
+          ".validate": "newData.isString()"
+        },
+        "pairing": {
+          "$dev": {
+            ".read": "auth != null && auth.uid === $dev",
+            ".write": "auth != null && auth.uid === $dev && root.child('families/' + $fid + '/owner').exists() && !root.child('families/' + $fid + '/devices/' + $dev).exists()",
+            ".validate": "!newData.exists() || (newData.child('childName').isString() && newData.child('childName').val().length > 0 && newData.child('childName').val().length <= 40 && newData.child('requestedAt').isNumber())"
+          }
+        },
+        "devices": {
+          "$dev": {
+            ".read": "auth != null && auth.uid === $dev",
+            ".validate": "newData.child('childId').isString()"
+          }
+        },
+        "deviceRules": {
+          "$dev": {
+            ".read": "auth != null && auth.uid === $dev && root.child('families/' + $fid + '/devices/' + $dev).exists()"
+          }
+        },
+        "commands": {
+          "$dev": {
+            ".read": "auth != null && auth.uid === $dev && root.child('families/' + $fid + '/devices/' + $dev).exists()"
+          }
+        },
+        "deviceState": {
+          "$dev": {
+            ".write": "auth != null && auth.uid === $dev && root.child('families/' + $fid + '/devices/' + $dev).exists()"
+          }
+        },
+        "usage": {
+          "$dev": {
+            ".write": "auth != null && auth.uid === $dev && root.child('families/' + $fid + '/devices/' + $dev).exists()"
+          }
+        },
+        "alerts": {
+          "$dev": {
+            ".write": "auth != null && auth.uid === $dev && root.child('families/' + $fid + '/devices/' + $dev).exists()"
+          }
+        },
+        "location": {
+          "$dev": {
+            ".write": "auth != null && auth.uid === $dev && root.child('families/' + $fid + '/devices/' + $dev).exists()"
+          }
+        },
+        "screenshot": {
+          "$dev": {
+            ".write": "auth != null && auth.uid === $dev && root.child('families/' + $fid + '/devices/' + $dev).exists()"
+          }
+        },
+        "requests": {
+          "$dev": {
+            "$req": {
+              ".write": "auth != null && auth.uid === $dev && root.child('families/' + $fid + '/devices/' + $dev).exists() && !data.exists()",
+              ".validate": "newData.child('type').isString() && newData.child('status').isString() && newData.child('at').isNumber()"
+            }
+          }
+        },
+        "children": {
+          "$child": {
+            ".read": "auth != null && root.child('families/' + $fid + '/devices/' + auth.uid + '/childId').val() === $child"
+          }
+        },
+        "schedule": {
+          "$child": {
+            ".read": "auth != null && root.child('families/' + $fid + '/devices/' + auth.uid + '/childId').val() === $child"
+          }
+        },
+        "messages": {
+          "$child": {
+            ".read": "auth != null && root.child('families/' + $fid + '/devices/' + auth.uid + '/childId').val() === $child",
+            "$msg": {
+              ".write": "auth != null && root.child('families/' + $fid + '/devices/' + auth.uid + '/childId').val() === $child && !data.exists() && newData.child('from').val() === 'child'",
+              ".validate": "newData.child('from').isString() && newData.child('text').isString() && newData.child('text').val().length > 0 && newData.child('text').val().length <= 500 && newData.child('at').isNumber()"
+            }
+          }
+        }
+      }
+    }
+  }
+}
