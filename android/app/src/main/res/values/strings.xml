@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sổ Bé Ngoan</string>
+    <string name="accessibility_description">Sổ Bé Ngoan dùng Trợ năng để biết ứng dụng nào đang mở, để áp dụng giới hạn giờ và danh sách chặn mà ba mẹ đặt. Ứng dụng KHÔNG đọc nội dung màn hình hay tin nhắn. Ảnh chụp màn hình chỉ được chụp khi ba mẹ bấm yêu cầu.</string>
+</resources>

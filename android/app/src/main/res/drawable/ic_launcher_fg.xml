@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ngôi sao trắng ở giữa vùng an toàn của icon thích ứng (108dp). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M54,32l6.5,13.2 14.5,2.1 -10.5,10.2 2.5,14.5L54,65.2l-13,6.8 2.5,-14.5L33,47.3l14.5,-2.1z" />
+</vector>

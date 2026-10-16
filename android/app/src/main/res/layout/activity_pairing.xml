@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/app_name"
+            android:textColor="@color/text"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/Muted"
+            android:text="Nhờ ba mẹ đọc Mã gia đình trên trang web Sổ Bé Ngoan, rồi nhập vào đây." />
+
+        <LinearLayout
+            android:id="@+id/form"
+            style="@style/Card"
+            android:layout_marginTop="20dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Mã gia đình">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/familyCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapCharacters|textNoSuggestions"
+                    android:maxLength="6" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Tên của con">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/childName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName|textCapWords"
+                    android:maxLength="40" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Gửi yêu cầu ghép nối" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/waiting"
+            style="@style/Card"
+            android:layout_marginTop="20dp"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/CardTitle"
+                android:text="⏳ Đang chờ ba mẹ duyệt" />
+
+            <TextView
+                android:id="@+id/waitingText"
+                style="@style/Body" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancel"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Huỷ, nhập lại mã" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/message"
+            style="@style/Body"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/warn"
+            android:visibility="gone" />
+    </LinearLayout>
+</ScrollView>

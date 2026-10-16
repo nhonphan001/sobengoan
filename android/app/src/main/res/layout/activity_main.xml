@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/text"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/deviceLine"
+            style="@style/Muted" />
+
+        <!-- Quyền còn thiếu: hiện nổi bật, ẩn khi đã đủ -->
+        <LinearLayout
+            android:id="@+id/permissionsCard"
+            style="@style/Card"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/CardTitle"
+                android:text="⚠️ Cần bật thêm để ba mẹ quản lý được máy"
+                android:textColor="@color/warn" />
+
+            <LinearLayout
+                android:id="@+id/permissionRows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/Card">
+
+            <TextView
+                style="@style/CardTitle"
+                android:text="⏱ Hôm nay" />
+
+            <TextView
+                android:id="@+id/usageText"
+                style="@style/Body"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/usageBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:max="100"
+                app:trackCornerRadius="6dp"
+                app:trackThickness="10dp" />
+
+            <TextView
+                android:id="@+id/remainingText"
+                style="@style/Muted" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/askMoreTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="🙏 Xin ba mẹ thêm giờ" />
+
+            <TextView
+                android:id="@+id/askStatus"
+                style="@style/Muted"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/Card">
+
+            <TextView
+                style="@style/CardTitle"
+                android:text="⭐ Điểm thưởng" />
+
+            <TextView
+                android:id="@+id/points"
+                style="@style/Body"
+                android:textColor="@color/primary"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/Card">
+
+            <TextView
+                android:id="@+id/scheduleTitle"
+                style="@style/CardTitle" />
+
+            <LinearLayout
+                android:id="@+id/scheduleRows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/Card">
+
+            <TextView
+                style="@style/CardTitle"
+                android:text="💬 Nhắn ba mẹ" />
+
+            <LinearLayout
+                android:id="@+id/messages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/messageInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Nhắn gì đó cho ba mẹ…"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:maxLength="500" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Gửi" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

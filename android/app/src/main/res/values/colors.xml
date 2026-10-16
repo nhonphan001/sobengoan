@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#EEF2F3</color>
+    <color name="card">#FFFFFF</color>
+    <color name="text">#1C3D4E</color>
+    <color name="muted">#7C8C97</color>
+    <color name="primary">#2F9E8F</color>
+    <color name="primary_soft">#DFF3EF</color>
+    <color name="warn">#B5502F</color>
+    <color name="warn_soft">#FFE3DA</color>
+    <color name="bubble_child">#2F9E8F</color>
+    <color name="bubble_parent">#E6ECEE</color>
+</resources>
