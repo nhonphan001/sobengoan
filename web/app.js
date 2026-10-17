@@ -25,7 +25,7 @@ import {
   connectDatabaseEmulator, get, getDatabase, limitToLast, onValue, push, query, ref,
   runTransaction, serverTimestamp, set, update,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-import { FIREBASE_CONFIG, USE_EMULATOR } from "./config.js?v=2"; // đổi số ?v= mỗi lần sửa config.js/app.js để trình duyệt không dùng bản cũ
+import { FIREBASE_CONFIG, USE_EMULATOR } from "./config.js?v=3"; // đổi số ?v= mỗi lần sửa config.js/app.js để trình duyệt không dùng bản cũ
 
 const fbApp = initializeApp(FIREBASE_CONFIG);
 const auth = getAuth(fbApp);
@@ -135,7 +135,10 @@ function rulesOf(uid) {
   };
 }
 const deviceLabel = uid => (S.fam.devices[uid] && S.fam.devices[uid].name) || stateOf(uid).model || "Thiết bị";
+const OWN_APP = "vn.ybfit.sobengoan"; // app trên máy của bé — không bao giờ bị chặn
+
 function appName(pkg) {
+  if (pkg === OWN_APP) return "Sổ Bé Ngoan";
   const preset = PRESET_APPS.find(a => a.pkg === pkg);
   if (preset) return preset.name;
   const label = S.labels[pkgKey(pkg)];
@@ -511,6 +514,7 @@ function renderDevice() {
 }
 
 function blockButton(pkg, rules) {
+  if (pkg === OWN_APP) return "";
   const on = !!rules.blocked[pkgKey(pkg)];
   return `<button class="btn tiny ${on ? "danger" : ""}" data-act="toggleBlock" data-pkg="${esc(pkg)}">${on ? "✕ Đã chặn" : "Chặn"}</button>`;
 }

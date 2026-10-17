@@ -56,6 +56,9 @@ class PairingActivity : AppCompatActivity() {
         if (name.isEmpty()) { showMessage("Nhập tên của con nhé."); return }
         showMessage(null)
         b.submit.isEnabled = false
+        currentFocus?.clearFocus()
+        getSystemService(android.view.inputmethod.InputMethodManager::class.java)
+            ?.hideSoftInputFromWindow(b.root.windowToken, 0)
 
         Cloud.signIn { uid, error ->
             if (uid == null) {
