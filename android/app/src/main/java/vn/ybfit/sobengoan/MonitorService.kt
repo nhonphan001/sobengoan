@@ -49,6 +49,19 @@ class MonitorService : AccessibilityService() {
         handler.post(tick)
     }
 
+    /**
+     * Trợ năng bị tắt (bé tự tắt, hoặc app dọn dẹp của máy như i Manager trên vivo
+     * tự xoá): báo ngay cho ba mẹ trước khi dịch vụ dừng — sau đó máy không còn
+     * bị giới hạn và cũng không gửi tín hiệu được nữa.
+     */
+    override fun onUnbind(intent: android.content.Intent?): Boolean {
+        if (Prefs.isApproved(this)) {
+            Reporter.alert(this, "ACCESSIBILITY_OFF")
+            Reporter.state(this, null, null, accessibilityOn = false)
+        }
+        return super.onUnbind(intent)
+    }
+
     override fun onDestroy() {
         handler.removeCallbacks(tick)
         listeners.clear()
