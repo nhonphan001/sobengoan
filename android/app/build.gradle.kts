@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
 }
@@ -14,6 +16,15 @@ fun firebaseProp(name: String): String = if (useEmulator) {
     ).getValue(name)
 } else {
     providers.gradleProperty("sobengoan.firebase.$name").get()
+}
+
+// Khoá ký bản chính thức nằm ngoài repo (mất khoá thì không cập nhật đè được app
+// đã cài, phải gỡ ra và ghép nối lại). Đường dẫn đổi được bằng -Psobengoan.keystore=...
+val keystoreProps = Properties().apply {
+    val path = providers.gradleProperty("sobengoan.keystore").orNull
+        ?: "${System.getProperty("user.home")}/.android-keys/sobengoan-keystore.properties"
+    val f = file(path)
+    if (f.exists()) f.inputStream().use { load(it) }
 }
 
 android {
@@ -35,9 +46,21 @@ android {
         buildConfigField("boolean", "USE_EMULATOR", useEmulator.toString())
     }
 
+    signingConfigs {
+        if (keystoreProps.containsKey("storeFile")) {
+            create("release") {
+                storeFile = file(keystoreProps.getProperty("storeFile"))
+                storePassword = keystoreProps.getProperty("storePassword")
+                keyAlias = keystoreProps.getProperty("keyAlias")
+                keyPassword = keystoreProps.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.findByName("release")
         }
     }
     compileOptions {

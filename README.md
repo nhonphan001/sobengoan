@@ -110,6 +110,17 @@ npm run test:rules
      - `sobengoan.firebase.databaseUrl` = `project_info.firebase_url`
 6. Build lại app và đăng lại trang web.
 
+## Build bản chính thức
+
+```bash
+cd android && ./gradlew assembleRelease
+```
+
+APK nằm ở `android/app/build/outputs/apk/release/app-release.apk`, được ký bằng khoá trong
+`~/.android-keys/` (file `sobengoan-release.jks` và `sobengoan-keystore.properties`, nằm
+ngoài repo). **Sao lưu thư mục `~/.android-keys/` ra chỗ an toàn** (USB, Google Drive cá nhân):
+mất khoá thì không cài đè bản mới lên máy của bé được nữa, phải gỡ app và ghép nối lại từ đầu.
+
 ## Cài app lên máy của bé
 
 Bật "Cài ứng dụng không rõ nguồn gốc" cho trình quản lý tệp, mở file APK để cài. Trên
