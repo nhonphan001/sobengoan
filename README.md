@@ -110,3 +110,5 @@ Android 13 trở lên, app cài từ file APK bị khoá Trợ năng lúc đầu
 Sổ Bé Ngoan › ⋮ › **Cho phép cài đặt bị hạn chế**, rồi mới bật được Trợ năng.
 
 Khi cập nhật app, cài đè lên bản cũ (đừng gỡ ra): gỡ app thì máy mất UID và phải ghép nối lại.
+Sau khi cài đè, kiểm tra lại Trợ năng: có máy tự tắt Trợ năng của app khi cập nhật. Trang web
+của ba mẹ sẽ báo "Máy chưa bật Trợ năng" khi bé mở app mà Trợ năng đang tắt.

@@ -376,7 +376,7 @@ function renderDeviceTabs() {
         const st = stateOf(uid);
         const on = isOnline(st.lastSeen);
         return `<button class="device-tab ${uid === S.deviceUid ? "active" : ""}" data-act="selectDevice" data-uid="${esc(uid)}">
-          ${esc(deviceLabel(uid))}<span class="status ${on ? "on" : ""}"><span class="dot"></span>${on ? "online" : timeAgo(st.lastSeen)}</span>
+          ${esc(deviceLabel(uid))}<span class="status ${on ? "on" : ""}"><span class="dot"></span>${on ? "online" : st.lastSeen ? timeAgo(st.lastSeen) : "chưa có tín hiệu"}</span>
         </button>`;
       }).join("")
     : `<div class="notice">${esc(S.fam.children[S.childId].name)} chưa có máy nào. Cài app trên máy của bé, nhập Mã gia đình rồi bấm Duyệt ở đây.</div>`;

@@ -3,6 +3,7 @@ package vn.ybfit.sobengoan
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.ServerValue
 import vn.ybfit.sobengoan.databinding.ActivityPairingBinding
@@ -17,9 +18,11 @@ class PairingActivity : AppCompatActivity() {
     private val listeners = Listeners()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         b = ActivityPairingBinding.inflate(layoutInflater)
         setContentView(b.root)
+        b.root.padForSystemBarsAndKeyboard()
 
         intent.getStringExtra(EXTRA_MESSAGE)?.let(::showMessage)
         b.submit.setOnClickListener { submit() }

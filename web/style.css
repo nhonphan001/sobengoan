@@ -29,8 +29,8 @@ h1 { margin: 0; font-size: 26px; }
 
 .card { background: var(--card); border-radius: 16px; padding: 18px; margin-top: 14px; }
 .card-title { font-weight: 700; margin-bottom: 10px; }
-.grid { display: grid; grid-template-columns: 1fr; gap: 0 14px; }
-@media (min-width: 700px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+.grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 14px; }
+@media (min-width: 700px) { .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
 .big { font-size: 32px; font-weight: 800; }
 .section-title { font-size: 17px; margin: 28px 0 0; }

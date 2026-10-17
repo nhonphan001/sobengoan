@@ -3,11 +3,9 @@ package vn.ybfit.sobengoan
 import android.content.Context
 import android.os.Build
 import android.provider.Settings
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
@@ -19,15 +17,13 @@ import java.util.Locale
  * (web/app.js). Mỗi máy là một deviceUid (UID đăng nhập ẩn danh của máy).
  */
 object Cloud {
-    private val db get() = FirebaseDatabase.getInstance()
+    val uid: String? get() = App.auth.currentUser?.uid
 
-    val uid: String? get() = FirebaseAuth.getInstance().currentUser?.uid
-
-    fun family(familyId: String): DatabaseReference = db.getReference("families/$familyId")
+    fun family(familyId: String): DatabaseReference = App.database.getReference("families/$familyId")
 
     /** Đăng nhập ẩn danh (giữ nguyên UID qua các lần mở app, mất khi gỡ app). */
     fun signIn(onResult: (uid: String?, error: String?) -> Unit) {
-        val auth = FirebaseAuth.getInstance()
+        val auth = App.auth
         auth.currentUser?.let { onResult(it.uid, null); return }
         auth.signInAnonymously()
             .addOnSuccessListener { onResult(it.user?.uid, null) }

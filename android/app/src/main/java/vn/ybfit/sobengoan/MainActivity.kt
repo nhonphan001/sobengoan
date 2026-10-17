@@ -14,6 +14,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { renderPermissions() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         if (!Prefs.isApproved(this)) {
             startActivity(Intent(this, PairingActivity::class.java))
@@ -49,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         }
         b = ActivityMainBinding.inflate(layoutInflater)
         setContentView(b.root)
+        b.root.padForSystemBarsAndKeyboard()
         b.hello.text = "Chào ${Prefs.childName(this)}! 👋"
         b.askMoreTime.setOnClickListener { askMoreTime() }
         b.send.setOnClickListener { sendMessage() }
@@ -57,6 +60,11 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         if (!::b.isInitialized) return
+        // Dịch vụ Trợ năng có thể đã xoá ghép nối trong lúc màn hình này đang ẩn.
+        if (!Prefs.isApproved(this)) {
+            backToPairing(REMOVED_MESSAGE)
+            return
+        }
         Cloud.signIn { uid, _ -> if (uid != null) listen(uid) }
     }
 
@@ -90,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         listeners.on(fam.child("devices/$uid")) { s ->
             val newChild = s.child("childId").getValue(String::class.java)
             when {
-                newChild == null -> backToPairing("Ba mẹ đã gỡ máy này khỏi Sổ Bé Ngoan. Muốn dùng lại thì ghép nối lại nhé.")
+                newChild == null -> backToPairing(REMOVED_MESSAGE)
                 newChild != childId -> { Prefs.setApproved(this, newChild); recreate() }
                 else -> b.deviceLine.text = "Máy: ${s.child("name").getValue(String::class.java) ?: Cloud.deviceName(this)}"
             }
@@ -287,4 +295,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun dp(v: Int) = (v * resources.displayMetrics.density).toInt()
+
+    companion object {
+        private const val REMOVED_MESSAGE = "Ba mẹ đã gỡ máy này khỏi Sổ Bé Ngoan. Muốn dùng lại thì ghép nối lại nhé."
+    }
 }
