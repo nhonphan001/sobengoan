@@ -25,7 +25,7 @@ import {
   connectDatabaseEmulator, get, getDatabase, limitToLast, onValue, push, query, ref,
   runTransaction, serverTimestamp, set, update,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-import { FIREBASE_CONFIG, USE_EMULATOR } from "./config.js?v=3"; // đổi số ?v= mỗi lần sửa config.js/app.js để trình duyệt không dùng bản cũ
+import { FIREBASE_CONFIG, USE_EMULATOR } from "./config.js?v=4"; // đổi số ?v= mỗi lần sửa config.js/app.js để trình duyệt không dùng bản cũ
 
 const fbApp = initializeApp(FIREBASE_CONFIG);
 const auth = getAuth(fbApp);
@@ -399,6 +399,8 @@ function renderDevice() {
     warnings.push("Máy chưa cấp quyền <b>Truy cập dữ liệu sử dụng</b> — không đếm được giờ dùng.");
   if (!st.lastSeen)
     warnings.push("Chưa nhận được tín hiệu nào từ máy này. Mở app Sổ Bé Ngoan trên máy và làm theo hướng dẫn cấp quyền.");
+  else if (!on)
+    warnings.push(`Máy không gửi tín hiệu từ ${timeAgo(st.lastSeen)}: máy tắt nguồn, mất mạng, hoặc <b>Trợ năng</b> của Sổ Bé Ngoan đã bị tắt. Mở app trên máy để kiểm tra.`);
   $("deviceHeader").innerHTML = `
     <div class="device-head">
       <div>
