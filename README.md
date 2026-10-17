@@ -2,7 +2,9 @@
 
 Ba mẹ đặt giới hạn giờ dùng máy, chặn ứng dụng, nhắn tin và thưởng điểm cho con.
 
-- `web/` — trang web cho ba mẹ (HTML + JavaScript, không cần build). Đăng lên GitHub Pages.
+- `web/` — trang web cho ba mẹ (HTML + JavaScript, không cần build). Tự đăng lên GitHub Pages
+  mỗi lần push lên `main` (`.github/workflows/pages.yml`). Sửa `app.js`/`config.js`/`style.css`
+  thì tăng số `?v=` trong `index.html` và `app.js` để trình duyệt không dùng bản cũ.
 - `android/` — app Android cài trên máy của bé (Kotlin).
 - `database.rules.json` — luật bảo mật Firebase Realtime Database.
 - `tests/rules.test.js` — test luật bảo mật trên Firebase emulator.
