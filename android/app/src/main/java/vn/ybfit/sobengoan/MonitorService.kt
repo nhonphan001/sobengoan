@@ -1,12 +1,12 @@
 package vn.ybfit.sobengoan
 
 import android.accessibilityservice.AccessibilityService
-import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.PowerManager
+import android.telecom.TelecomManager
 import android.util.Base64
 import android.view.Display
 import android.view.accessibility.AccessibilityEvent
@@ -139,11 +139,13 @@ class MonitorService : AccessibilityService() {
 
     /**
      * Không bao giờ chặn: chính app này (để bé xin thêm giờ, nhắn ba mẹ), màn hình
-     * chính, bàn phím, app gọi điện (gọi khẩn cấp), và hộp thoại cấp quyền.
+     * chính, bàn phím, app gọi điện MẶC ĐỊNH của máy (gọi khẩn cấp), và hộp thoại
+     * cấp quyền. Không dùng mọi app nhận Intent.ACTION_DIAL: Zalo, Zoom... cũng
+     * khai báo nhận, nên trước đây chúng không bao giờ bị chặn.
      */
     private fun exemptPackages(): Set<String> {
-        val dialers = packageManager.queryIntentActivities(Intent(Intent.ACTION_DIAL), 0)
-            .mapNotNull { it.activityInfo?.packageName }
+        val telecom = getSystemService(TelecomManager::class.java)
+        val dialers = listOfNotNull(telecom?.defaultDialerPackage, telecom?.systemDialerPackage)
         return UsageTracker.ignoredPackages(this) + dialers + setOf(
             "com.android.permissioncontroller",
             "com.google.android.permissioncontroller",
