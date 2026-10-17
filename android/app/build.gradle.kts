@@ -2,8 +2,19 @@ plugins {
     id("com.android.application")
 }
 
-fun firebaseProp(name: String): String =
+val useEmulator = providers.gradleProperty("sobengoan.useEmulator").orNull == "true"
+
+// Với emulator dùng project "demo-sobengoan" (chỉ tồn tại trên Firebase emulator).
+fun firebaseProp(name: String): String = if (useEmulator) {
+    mapOf(
+        "projectId" to "demo-sobengoan",
+        "apiKey" to "demo-api-key",
+        "appId" to "1:000000000000:android:0000000000000000",
+        "databaseUrl" to "https://demo-sobengoan-default-rtdb.firebaseio.com",
+    ).getValue(name)
+} else {
     providers.gradleProperty("sobengoan.firebase.$name").get()
+}
 
 android {
     namespace = "vn.ybfit.sobengoan"
@@ -21,8 +32,7 @@ android {
         buildConfigField("String", "FIREBASE_API_KEY", "\"${firebaseProp("apiKey")}\"")
         buildConfigField("String", "FIREBASE_APP_ID", "\"${firebaseProp("appId")}\"")
         buildConfigField("String", "FIREBASE_DATABASE_URL", "\"${firebaseProp("databaseUrl")}\"")
-        // Project "demo-..." chỉ tồn tại trên Firebase emulator.
-        buildConfigField("boolean", "USE_EMULATOR", projectId.startsWith("demo-").toString())
+        buildConfigField("boolean", "USE_EMULATOR", useEmulator.toString())
     }
 
     buildTypes {

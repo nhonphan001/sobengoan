@@ -63,7 +63,7 @@ Mở trang web: chạy một web server bất kỳ trong thư mục `web/`, ví 
 python3 -m http.server 8766 --directory web
 ```
 
-rồi mở http://localhost:8766. Cấu hình `demo-sobengoan` trong `web/config.js` tự dùng emulator.
+rồi mở http://localhost:8766/?emulator=1 (có `?emulator=1` thì trang dùng emulator thay cho Firebase thật).
 
 Thử với máy giả (thay `MÃ` bằng Mã gia đình hiện trên trang web):
 
@@ -71,12 +71,14 @@ Thử với máy giả (thay `MÃ` bằng Mã gia đình hiện trên trang web)
 node tools/fake-device.mjs MÃ "An" "Samsung A15" --ask-extension
 ```
 
-App Android bản debug với cấu hình `demo-` cũng tự gọi emulator (qua `10.0.2.2`, chỉ dùng
-được trên máy ảo Android). Build:
+App Android build với `-Psobengoan.useEmulator=true` thì gọi emulator (qua `10.0.2.2`, chỉ
+dùng được trên máy ảo Android):
 
 ```bash
-cd android && ./gradlew assembleDebug
+cd android && ./gradlew assembleDebug -Psobengoan.useEmulator=true
 ```
+
+Build bình thường (không có cờ đó) thì app dùng Firebase thật `so-be-ngoan-3`.
 
 File APK nằm ở `android/app/build/outputs/apk/debug/app-debug.apk`.
 
@@ -87,6 +89,9 @@ npm run test:rules
 ```
 
 ## Đưa lên Firebase thật
+
+Đã làm ngày 2026-10-17: project `so-be-ngoan-3` (Singapore), cấu hình đã nằm trong
+`web/config.js` và `android/gradle.properties`. Các bước dưới đây để làm lại nếu cần.
 
 1. Vào https://console.firebase.google.com, tạo project mới (ví dụ `so-be-ngoan-3`).
 2. **Authentication** › Sign-in method: bật **Email/Password** và **Anonymous**.
