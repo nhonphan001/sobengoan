@@ -25,7 +25,7 @@ import {
   connectDatabaseEmulator, get, getDatabase, limitToLast, onValue, push, query, ref,
   runTransaction, serverTimestamp, set, update,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-import { FIREBASE_CONFIG, USE_EMULATOR } from "./config.js";
+import { FIREBASE_CONFIG, USE_EMULATOR } from "./config.js?v=2"; // đổi số ?v= mỗi lần sửa config.js/app.js để trình duyệt không dùng bản cũ
 
 const fbApp = initializeApp(FIREBASE_CONFIG);
 const auth = getAuth(fbApp);

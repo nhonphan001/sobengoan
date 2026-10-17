@@ -30,6 +30,7 @@ class App : Application() {
             auth.useEmulator(EMULATOR_HOST, 9099)
             database.useEmulator(EMULATOR_HOST, 9000)
         }
+        if (BuildConfig.DEBUG) database.setLogLevel(com.google.firebase.database.Logger.Level.DEBUG)
         Notifier.createChannels(this)
     }
 
