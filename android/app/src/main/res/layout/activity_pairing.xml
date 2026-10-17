@@ -33,11 +33,13 @@
                 android:layout_height="wrap_content"
                 android:hint="Mã gia đình">
 
+                <!-- textVisiblePassword: bàn phím tiếng Việt (Telex/VNI) không biến chữ
+                     trong mã thành dấu thanh, vd "4TYCRS" thành "4TÝC". -->
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/familyCode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapCharacters|textNoSuggestions"
+                    android:inputType="textCapCharacters|textNoSuggestions|textVisiblePassword"
                     android:maxLength="6" />
             </com.google.android.material.textfield.TextInputLayout>
 
